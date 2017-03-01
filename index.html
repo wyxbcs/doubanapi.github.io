@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html ng-app="douban">
+<head lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="keywords" content="'豆瓣','TOP250','电影','豆瓣电影TOP250'">
+  <title>豆瓣API</title>
+  <link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/myCss.css"/>
+</head>
+<body ng-controller="parentCtrl">
+<div ng-view></div>
+
+<!--回到顶部-->
+<div class="fixed text-center bg-info" id="to_top" ng-click="returnTop()" draggable="true">
+  TOP
+</div>
+
+
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+<script src="js/angular.js"></script>
+<script src="js/angular-route.js"></script>
+<script src="js/douban.js"></script>
+<script>
+  (function (){
+    let $to_top=$('#to_top')[0];
+    let $win_width;
+    $to_top.ondragstart = function(e){
+      console.log("开始拖拽",e);
+      this.style.bottom='';
+      $win_width=$(window).width();
+    };
+    $to_top.ondragend = function(e) {
+      console.log("拖拽结束", e);
+      this.style.top= e.pageY+'px';
+      this.style.left= e.pageX+'px';
+      if($win_width/2<e.pageX){
+        this.style.left='';
+        this.style.right= 0 +'px';
+      }else{
+        this.style.left=0 +'px';
+      }
+    };
+  })();
+  (function (){
+    let $to_top=$('#to_top')[0];
+    let $win_width;
+    $to_top.touchstart = function(e){
+      console.log("开始拖拽",e);
+      this.style.bottom='';
+      $win_width=$(window).width();
+    };
+    $to_top.touchend = function(e) {
+      console.log("拖拽结束", e);
+      this.style.top= e.pageY+'px';
+      this.style.left= e.pageX+'px';
+      if($win_width/2<e.pageX){
+        this.style.left='';
+        this.style.right= 0 +'px';
+      }else{
+        this.style.left=0 +'px';
+      }
+    };
+  })();
+</script>
+</body>
+</html>

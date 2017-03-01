@@ -1,0 +1,78 @@
+<header ng-include="'tpl/include/header.html'"></header>
+<div class="container" id="main">
+  <ul class="list-group">
+    <li class="list-group-item center"
+        ng-if="loading">
+      <!--引入loading界面-->
+      <!--<div ng-include="'tpl/include/loading.html'"></div>-->
+      <div class="loading">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </li>
+    <li class="list-group-item"
+        ng-if="!loading"
+        ng-repeat="movie in movieList track by $index">
+      <div class="col-sm-2 hidden-sm-down">
+        <div class="h2 text-center {{start*count+$index<3?'bg-warning':'bg-info'}}" style="line-height:200px">{{$index+1+start*count}}</div>
+      </div>
+      <div class="col-12 col-sm-8">
+        <div class="media">
+          <img class="media-object" ng-src="{{movie.images.medium}}" alt="{{movie.title}}" height="200px"/>
+          <div class="media-body">
+            <h4 class="media-heading">
+              <a class="text-primary"
+                 href="#/detail/{{movie.id}}">
+                {{movie.title}}
+                <span class="text-info">
+                  {{(movie.original_title==movie.title?'':movie.original_title)}}
+                </span>
+              </a>
+            </h4>
+            上映时间: {{movie.year}}<br/>
+            类型: {{(movie.genres[0]||'')+' '+(movie.genres[1]||'')+' '+(movie.genres[2]||'')}}<br/>
+            导演: <span ng-repeat="name in movie.directors track by $index">{{name.name}}</span>
+            <br/>
+            主演: <span ng-repeat="name in movie.casts track by $index">{{name.name}}</span>
+            <br/>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2 hidden-sm-down">
+        <div
+          class="h2 text-center {{movie.rating.average>=9?'bg-danger':'bg-info'}}"
+          style="line-height: 200px">{{movie.rating.average}}</div>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="btn-group">
+        <button class="btn btn-secondary"
+                ng-click="jump('/main/' + 0)"
+                ng-disabled=" start==0?true:false"><<</button>
+        <button class="btn btn-secondary hidden-sm-down"
+                ng-click="jump('/main/' + (start-1))"
+                ng-disabled=" start==0?true:false"><</button>
+        <button class="btn btn-secondary"
+                ng-click="jump('/main/' + (pageNum-3))">{{pageNum-2}}</button>
+        <button class="btn btn-secondary"
+                ng-click="jump('/main/' + (pageNum-2))">{{pageNum-1}}</button>
+        <button class="btn btn-secondary"
+                ng-click="jump('/main/' + (pageNum-1))">{{pageNum}}</button>
+        <button class="btn btn-secondary"
+                ng-click="jump('/main/' + (pageNum))">{{pageNum+1}}</button>
+        <button class="btn btn-secondary"
+                ng-click="jump('/main/' + (pageNum+1))">{{pageNum+2}}</button>
+        <button class="btn btn-secondary hidden-sm-down"
+                ng-click="jump('/main/' + (start+1))"
+                ng-disabled=" start==totalNum?true:false">></button>
+        <button class="btn btn-secondary"
+                ng-click="jump('/main/' + totalNum)"
+                ng-disabled=" start==totalNum?true:false">>></button>
+      </div>
+    </li>
+  </ul>
+</div>
+<footer ng-include="'tpl/include/footer.html'"></footer>

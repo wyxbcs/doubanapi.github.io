@@ -1,0 +1,48 @@
+<header ng-include="'tpl/include/header.html'"></header>
+<div class="row" ng-if="!movieDetail">
+  <div class="loading">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<div class="row" ng-if="movieDetail">
+  <div class="col-sm-12">
+    <h2>{{movieDetail.title+' '+movieDetail.original_title+' ('+movieDetail.year+')'}}</h2>
+  </div>
+  <div class="col-sm-3">
+    <img class="img-thumbnail" ng-src="{{movieDetail.images.large}}" alt="{{movieDetail.title}}"/>
+  </div>
+  <div class="col-sm-9">
+    <table class="table table-striped table-condensed table-bordered table-inverse">
+      <tr ng-repeat="(key,value) in movieTable">
+        <td class="text-right">{{key}}</td>
+        <td>
+        <!--这里遇到了问题，原因是ng-repeat在遍历object对象时'x in value track by $index'无法读取其值
+          我的解决方法是：object单独写,（应该有更好的遍历方法）
+        -->
+          <span ng-if="key=='豆瓣评分'">
+            {{value.average}}
+          </span>
+          <span ng-if="key!='豆瓣评分'"
+                ng-repeat="x in value track by $index">
+            {{key=="导演"||key=="主演"?x.name : x}} {{($index+1)==value.length?'':'/'}}
+          </span>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-block">
+      <h4 class="card-title">电影简介:</h4>
+      <p class="card-text">
+        {{movieDetail.summary}}
+      </p>
+      <button class="card-link btn"
+              ng-click="back()">返回</button>
+    </div>
+  </div>
+</div>
+<footer ng-include="'tpl/include/footer.html'"></footer>
